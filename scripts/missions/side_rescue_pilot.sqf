@@ -17,7 +17,7 @@ private ["_position","_safeposition","_side_trigger","_side_text","_side_task_te
 
 //get the location
 _position = (getMarkerPos "cgr_mkr_center");
-_safeposition = [_position, 1, 1000, 10, 0, 0.5, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
+_safeposition = [_position, 1, cgr_center_distance, 10, 0, 0.5, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
 waitUntil {!(isNil "_safeposition");};
 
 

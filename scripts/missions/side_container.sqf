@@ -15,7 +15,7 @@ This is a test file for editing. Executed by side_init and side_start
 private ["_position","_safeposition","_side_trigger","_side_target_list","_side_text","_side_task_text","_side_task_detail","_side_target_type","_side_target","_enemiesArray","_reinforcementArray"];
 
 _position = (getMarkerPos "cgr_mkr_center");
-_safeposition = [_position, 1, 2000, 10, 0, 0.25, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
+_safeposition = [_position, 1, cgr_center_distance, 10, 0, 0.25, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
 
 
 waitUntil {!(isNil "_safeposition");};

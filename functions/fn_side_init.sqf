@@ -17,7 +17,7 @@ This is requierd to be called through the init.sqf:
 */
 
 private ["_pathToSideMission","_listOfSideMission","_sideMissionselected","_sideMissionStart"];
-
+cgr_center_distance = 8000;
 cgr_sideStart = true;
 cgr_cleanup_finished = false;
 if (cgr_sideStart) then {
