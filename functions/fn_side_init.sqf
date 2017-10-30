@@ -26,9 +26,9 @@ _pathToSideMission = "cgr_sidemission_sys\scripts\missions\";
 //List of SideMissions
 _listOfSideMission = [
 
-					//"side_container.sqf",
-					"side_rescue_pilot.sqf"
-					//"side_armor.sqf"
+					"side_container.sqf",
+					"side_rescue_pilot.sqf",
+					"side_armor.sqf"
 							
 					];
 					
