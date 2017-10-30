@@ -50,7 +50,7 @@ sleep 5;
 /*Place for extra code*/
 
 //Different in recover missions
-_side_trigger = createTrigger ["EmptyDetector", getMarkerPos "cgr_mkr_droppoint"];
+_side_trigger = createTrigger ["EmptyDetector", getPos cgr_return_point];
 _side_trigger setTriggerArea [10, 10, 0, false];
 _side_trigger setTriggerActivation ["ANY", "PRESENT", true];
 _side_trigger setTriggerStatements ["this","",""];
