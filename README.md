@@ -1,5 +1,8 @@
 # cgr_sidemission_sys
-==================================================
+
+
+
+
 Side Mission Framework by christian2526 aka. [TF47] Chris [REBEL] based on Invade & Annex Side Mission Script
 ==================================================
 Einfügen in die Init.sqf: 
