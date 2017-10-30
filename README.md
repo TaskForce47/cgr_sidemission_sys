@@ -11,8 +11,6 @@ Einfügen in die Init.sqf:
 
 _cgr_side_mission = execVM "cgr_sidemission_sys\cgr_sidemission_config.sqf";
 
-cgr_fnc_side_get = compileFinal preprocessFileLineNumbers "cgr_sidemission_sys\functions\fn_side_get.sqf";
-cgr_fnc_side_finish = compileFinal preprocessFileLineNumbers "cgr_sidemission_sys\functions\fn_side_finish.sqf";
 cgr_fnc_side_cleanup = compileFinal preprocessFileLineNumbers "cgr_sidemission_sys\functions\fn_side_cleanup.sqf";
 
 

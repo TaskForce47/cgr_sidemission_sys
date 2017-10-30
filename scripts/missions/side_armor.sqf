@@ -64,7 +64,6 @@ waitUntil {sleep 5; count list _side_trigger < 3};
 
 _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 
-[5,"Good Job, You have crushed the enemy!"] call cgr_fnc_side_get;
 //TF47 TICKET ID SUCCES 15
 //TF$/ TICKET ID FAILURE 16
 [objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
