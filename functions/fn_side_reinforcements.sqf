@@ -3,9 +3,9 @@ Written by christian2526 aka. [TF47] Chris [REBEL] for Task Force 47 Community
 
 Spawns a reasonable force to counter a side mission team.
 
-[time,number,number] call cgr_fnc_side_reinforcements;
+[number,number,number] call cgr_fnc_side_reinforcements;
 
-Time: Time when they are called.
+Time: Time in Seconds when they are called.
 Number 1: 
 
 	1: Small Force 4xCar
