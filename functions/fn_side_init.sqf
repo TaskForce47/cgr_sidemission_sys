@@ -17,16 +17,17 @@ This is requierd to be called through the init.sqf:
 */
 
 private ["_pathToSideMission","_listOfSideMission","_sideMissionselected","_sideMissionStart"];
-cgr_center_distance = 8000;
+cgr_center_distance = 6000;
 cgr_sideStart = true;
 cgr_cleanup_finished = false;
+cgr_timebetweenmissions = 300 + (random 600);
 if (cgr_sideStart) then {
 
 _pathToSideMission = "cgr_sidemission_sys\scripts\missions\";
 //List of SideMissions
 _listOfSideMission = [
 
-					"side_container.sqf",
+					"side_container.sqf"
 					"side_rescue_pilot.sqf",
 					"side_armor.sqf"
 							
