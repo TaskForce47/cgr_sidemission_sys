@@ -15,7 +15,7 @@ This is a test file for editing. Executed by side_init and side_start
 private ["_position","_safeposition","_side_trigger","_side_target_list","_side_text","_side_task_text","_side_task_detail","_side_target_type","_side_target","_enemiesArray","_reinforcementArray"];
 
 _position = (getMarkerPos "cgr_mkr_center");
-_safeposition = [_position, 1, 2000, 10, 0, 0.25, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
+_safeposition = [_position, 1, cgr_center_distance, 10, 0, 0.25, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
 
 
 waitUntil {!(isNil "_safeposition");};
@@ -50,20 +50,19 @@ sleep 5;
 /*Place for extra code*/
 
 //Different in recover missions
-_side_trigger = createTrigger ["EmptyDetector", getMarkerPos "cgr_mkr_droppoint"];
+_side_trigger = createTrigger ["EmptyDetector", getPos cgr_return_point];
 _side_trigger setTriggerArea [10, 10, 0, false];
 _side_trigger setTriggerActivation ["ANY", "PRESENT", true];
 _side_trigger setTriggerStatements ["this","",""];
 
 //Time until Reinforcements start moving e.g. 20 minutes
-_reinforcementArray = [1,1,1] call cgr_fnc_side_reinforcements;
+_reinforcementArray = [1200,1,1] call cgr_fnc_side_reinforcements;
 
 //Wait for completiton
 waitUntil {sleep 5; cgr_side_target in (list _side_trigger);};
 
 _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 
-[5,"Good Job, You have recoverd the container!"] call cgr_fnc_side_get;
 //TF47 TICKET ID SUCCES 15
 //TF$/ TICKET ID FAILURE 16
 [objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
