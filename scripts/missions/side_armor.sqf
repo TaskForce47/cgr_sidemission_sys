@@ -78,5 +78,9 @@ deleteVehicle cgr_side_target;
 waitUntil {cgr_cleanup_finished};
 
 //Call next
+<<<<<<< HEAD
 sleep cgr_timebetweenmissions; 
+=======
+sleep timebetweenmissions; 
+>>>>>>> 174254e5c61b6ba230aac88413b5f50773691ba7
 [true] call cgr_fnc_side_init;
