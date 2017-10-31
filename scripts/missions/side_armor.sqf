@@ -68,7 +68,8 @@ _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 //TF$/ TICKET ID FAILURE 16
 [objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
 //Clean-up
-deleteMarker _side_marker;
+["tsk_side_1"] call Bis_fnc_deleteTask;
+deleteMarker _side_task_marker;
 deleteVehicle _side_trigger;
 sleep 120;
 deleteVehicle cgr_side_target;
@@ -77,6 +78,5 @@ deleteVehicle cgr_side_target;
 waitUntil {cgr_cleanup_finished};
 
 //Call next
-_sleep = 300 + (random 600);
-sleep _sleep; 
+sleep cgr_timebetweenmissions; 
 [true] call cgr_fnc_side_init;
