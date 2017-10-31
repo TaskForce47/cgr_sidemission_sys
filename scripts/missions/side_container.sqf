@@ -12,7 +12,7 @@ This is a test file for editing. Executed by side_init and side_start
 
 ==================================================================
 */
-private ["_position","_safeposition","_side_trigger","_side_target_list","_side_text","_side_task_text","_side_task_detail","_side_target_type","_side_target","_enemiesArray","_reinforcementArray"];
+private ["_position","_safeposition","_side_target_list","_side_text","_side_task_text","_side_task_detail","_side_target_type","_side_target","_enemiesArray","_reinforcementArray"];
 
 _position = (getMarkerPos "cgr_mkr_center");
 _safeposition = [_position, 1, cgr_center_distance, 10, 0, 0.25, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
@@ -48,18 +48,28 @@ _sideTask = [west,["tsk_side_1"], [_side_task_detail,_side_task_text,"cgr_mkr_si
 sleep 5;
 
 /*Place for extra code*/
+_reinforcementArray = "";
+_containerinbase = false;
+private _count = 2;
+while {!_containerinbase} do {
+	if !(cgr_side_target distance2D cgr_return_point < 10) then {
+		_containeratbase = false;
+		
 
-//Different in recover missions
-_side_trigger = createTrigger ["EmptyDetector", getPos cgr_return_point];
-_side_trigger setTriggerArea [10, 10, 0, false];
-_side_trigger setTriggerActivation ["ANY", "PRESENT", true];
-_side_trigger setTriggerStatements ["this","",""];
+		if (_count == 200) then {
+			_reinforcementArray = [200,1,1] call cgr_fnc_side_reinforcements;
+		} else {
+			_count = _count + 2;
+		};
+	} else {
+		_containerinbase = true;
+	};
+	sleep 10;
+};
 
-//Time until Reinforcements start moving e.g. 20 minutes
-_reinforcementArray = [1200,1,1] call cgr_fnc_side_reinforcements;
 
 //Wait for completiton
-waitUntil {sleep 5; cgr_side_target in (list _side_trigger);};
+waitUntil {sleep 5;_containerinbase};
 
 _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 
@@ -67,16 +77,17 @@ _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 //TF$/ TICKET ID FAILURE 16
 [objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
 //Clean-up
-
-deleteVehicle _side_trigger;
+["tsk_side_1"] call Bis_fnc_deleteTask;
 sleep 120;
 deleteVehicle cgr_side_target;
 [_enemiesArray] spawn cgr_fnc_side_cleanUp;
-[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
-
+if (_reinforcementArray == "") then {
+	cgr_cleanup_finished = true;
+} else {
+	[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
+};
 waitUntil {cgr_cleanup_finished};
 
 //Call next
-_sleep = 300 + (random 600);
-sleep _sleep; 
+sleep timebetweenmissions;
 [true] call cgr_fnc_side_init;

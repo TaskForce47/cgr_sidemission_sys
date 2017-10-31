@@ -21,14 +21,6 @@ _safeposition = [_position, 1, cgr_center_distance, 10, 0, 0.5, 0, ["cgr_mkr_bas
 waitUntil {!(isNil "_safeposition");};
 
 
-//Different in recover missions
-_side_trigger = createTrigger ["EmptyDetector", getMarkerPos "cgr_mkr_droppoint"];
-_side_trigger setTriggerArea [10, 10, 0, false];
-_side_trigger setTriggerActivation ["WEST", "PRESENT", true];
-_side_trigger setTriggerStatements ["this","",""];
-
-
-
 /*Prepare the Side Group (Target)*/
 cgr_side_target = "BlackHawkWreck" createVehicle _safeposition;
 cgr_side_target allowDamage false;
@@ -63,7 +55,6 @@ while {!_pilots_at_base && {!_pilots_dead}} do {
 	if (!alive cgr_side_target_1 && {!alive cgr_side_target_2}) then {
 		_pilots_dead = true;
 		_sideTask = ["tsk_side_1","FAILED",true] call bis_fnc_taskSetState;
-		deleteVehicle _side_trigger;
 		sleep 120;
 		
 		deleteVehicle cgr_side_target;
@@ -81,7 +72,6 @@ while {!_pilots_at_base && {!_pilots_dead}} do {
 			[objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
 			//Clean-up
 			terminate _reinforcementArray;
-			deleteVehicle _side_trigger;
 			sleep 120;
 			deleteVehicle cgr_side_target;
 			[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
@@ -106,17 +96,21 @@ _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 
 [objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
 //Clean-up
+["tsk_side_1"] call Bis_fnc_deleteTask;
+["tsk_side_2"] call Bis_fnc_deleteTask;
+["tsk_side_3"] call Bis_fnc_deleteTask;
 deleteVehicle cgr_side_target_1;
 deleteVehicle cgr_side_target_2;
-deleteVehicle _side_trigger;
 terminate _reinforcementArray;
 sleep 120;
 deleteVehicle cgr_side_target;
-[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
-
+if (_reinforcementArray == "") then {
+	cgr_cleanup_finished = true;
+} else {
+	[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
+};
 waitUntil {cgr_cleanup_finished};
 
 //Call next
-_sleep = 300 + (random 600);
-sleep _sleep; 
+sleep cgr_timebetweenmissions; 
 [true] call cgr_fnc_side_init;
