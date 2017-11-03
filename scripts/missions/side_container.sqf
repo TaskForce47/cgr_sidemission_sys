@@ -57,7 +57,7 @@ while {!_containerinbase} do {
 		
 
 		if (_count == 200) then {
-			_reinforcementArray = [200,1,1] call cgr_fnc_side_reinforcements;
+			_reinforcementArray = [200,1,1,true] call cgr_fnc_side_reinforcements;
 		} else {
 			_count = _count + 2;
 		};

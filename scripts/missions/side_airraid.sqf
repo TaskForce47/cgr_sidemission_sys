@@ -74,12 +74,12 @@ _facGroup1 = createGroup independent;
 _facGroup2 = createGroup independent;
 cgr_side_target_1 = _facGroup1 createUnit ["rhsgref_ins_g_grenadier",_safeposition, [], 0, "FORM"];
 cgr_side_target_1 addBackpack 'tf_anprc155_coyote';
-[cgr_side_target_1, _safeposition, 600,_blacklist] call BIS_fnc_taskPatrol;
+[_facGroup1, _safeposition, 600,_blacklist] call BIS_fnc_taskPatrol;
 _position = (getMarkerPos "cgr_mkr_base");
 _safeposition = [_position, 200, 400, 5, 0, 0.5, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
 cgr_side_target_2 = _facGroup2 createUnit ["rhsgref_ins_g_grenadier",_safeposition, [], 0, "FORM"];
 cgr_side_target_2 addBackpack 'tf_anprc155_coyote';
-[cgr_side_target_2, _safeposition, 600,_blacklist] call BIS_fnc_taskPatrol;
+[_facGroup2, _safeposition, 600,_blacklist] call BIS_fnc_taskPatrol;
 
 //Wait for completiton
 _fac_1_dead = false;
