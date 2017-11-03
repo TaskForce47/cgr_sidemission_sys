@@ -120,61 +120,63 @@ while {!_fac_dead_both || {_time < _time15minutes}} do {
 			//Call next
 			sleep cgr_timebetweenmissions; 
 			[true] call cgr_fnc_side_init;
+			_scriptDone = true;
 		} else {
 			_time = _time +10;
 		};
 	};
 	sleep 10;
 };
-while {!_jetsUP} do {
-	if (_time == _time15minutes) then {
-		_jetArray = [cgr_side_target_1,cgr_side_target_2] call cgr_fnc_airraid_jet;
-		_side_task_text = "Side: BANDITS IMBOUND!!!";
-		_side_task_detail = "Side Mission: BANDITS reportedly went up into the skies and are making their way towards our base, from now you have 10 minutes to either kill the FAC or you neutralize those jets.";
-		_sideTask = [west,["tsk_side_2","tsk_side_1"], [_side_task_detail,_side_task_text,""],getmarkerPos "cgr_mkr_base",true,1,true,"defend"] call BIS_fnc_taskCreate;
-		_jetsUP = true;
-	} else {
-		_time = _time + 10;
-	};
-};
-		
-while {_jetsUp && {!_jetsdown}} do {
-	
-	_cnt = count _jetArray == 0;
-	if (_cnt) then {_jetsdown = true;_jetsUp = false;};
-
-	if (!_fac_dead_both) then {
-		if (alive cgr_side_target_1) then {_fac_1_dead = false} else {_fac_1_dead = true};
-		if (alive cgr_side_target_2) then {_fac_2_dead = false} else {_fac_2_dead = true};
-		
-		if (_fac_1_dead && _fac_2_dead) then {_fac_dead_both = true;};
-	} else {
-		if (_fac_dead_both) then {
-			_sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
-			[objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
-			sleep 2;
-			//Clean-up
-			["tsk_side_1"] call Bis_fnc_deleteTask;
-			["tsk_side_2"] call Bis_fnc_deleteTask;
-			sleep 120;
-			deleteVehicle cgr_side_target_1;
-			deleteVehicle cgr_side_target_2;
-			[_JetArray] spawn cgr_fnc_side_cleanUp;
-	
-			waitUntil {cgr_cleanup_finished};
-			//Call next
-			sleep cgr_timebetweenmissions; 
-			[true] call cgr_fnc_side_init;
+if {!_scriptDone) then {
+	while {!_jetsUP} do {
+		if (_time == _time15minutes) then {
+			_jetArray = [cgr_side_target_1,cgr_side_target_2] call cgr_fnc_airraid_jet;
+			_side_task_text = "Side: BANDITS IMBOUND!!!";
+			_side_task_detail = "Side Mission: BANDITS reportedly went up into the skies and are making their way towards our base, from now you have 10 minutes to either kill the FAC or you neutralize those jets.";
+			_sideTask = [west,["tsk_side_2","tsk_side_1"], [_side_task_detail,_side_task_text,""],getmarkerPos "cgr_mkr_base",true,1,true,"defend"] call BIS_fnc_taskCreate;
+			_jetsUP = true;
+		} else {
+			_time = _time + 10;
 		};
 	};
-	sleep 10;
-};
-waitUntil {_jetsdown && {_fac_dead_both};sleep 5;};
-if (_jetsdown && _fac_dead_both) then {
+		
+	while {_jetsUp && {!_jetsdown}} do {
+	
+		_cnt = count _jetArray == 0;
+		if (_cnt) then {_jetsdown = true;_jetsUp = false;};
+
+		if (!_fac_dead_both) then {
+			if (alive cgr_side_target_1) then {_fac_1_dead = false} else {_fac_1_dead = true};
+			if (alive cgr_side_target_2) then {_fac_2_dead = false} else {_fac_2_dead = true};
+		
+			if (_fac_1_dead && _fac_2_dead) then {_fac_dead_both = true;};
+		} else {
+			if (_fac_dead_both) then {
+				_sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
+				[objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
+				sleep 2;
+				//Clean-up
+				["tsk_side_1"] call Bis_fnc_deleteTask;
+				["tsk_side_2"] call Bis_fnc_deleteTask;
+				sleep 120;
+				deleteVehicle cgr_side_target_1;
+				deleteVehicle cgr_side_target_2;
+				[_JetArray] spawn cgr_fnc_side_cleanUp;
+	
+				waitUntil {cgr_cleanup_finished};
+				//Call next
+				sleep cgr_timebetweenmissions; 
+				[true] call cgr_fnc_side_init;
+			};
+		};
+		sleep 10;
+	};
+	waitUntil {_jetsdown && {_fac_dead_both};sleep 5;};
+
 	_sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 	[objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
-				
-	//Clean-up
+			
+		//Clean-up
 	["tsk_side_1"] call Bis_fnc_deleteTask;
 	["tsk_side_2"] call Bis_fnc_deleteTask;
 	sleep 120;
