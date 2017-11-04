@@ -82,6 +82,7 @@ cgr_side_target_2 addBackpack 'tf_anprc155_coyote';
 [_facGroup2, _safeposition, 600,_blacklist] call BIS_fnc_taskPatrol;
 
 //Wait for completiton
+_scriptDone = false;
 _fac_1_dead = false;
 _fac_2_dead = false;
 _fac_dead_both = false;
@@ -89,11 +90,11 @@ _jetsup = false;
 _jet_1_down = false;
 _jet_2_down = false;
 _jetsdown = false;
-_time = 0;
+cgrtime = 0;
 _time5minutes = 30;
 _time15minutes = 90;
 
-while {!_fac_dead_both || {_time < _time15minutes}} do {
+while {!_fac_dead_both || {cgrtime < _time15minutes}} do {
 	
 	if (!_fac_dead_both) then {
 		if (alive cgr_side_target_1) then {_fac_1_dead = false} else {_fac_1_dead = true};
@@ -101,9 +102,9 @@ while {!_fac_dead_both || {_time < _time15minutes}} do {
 		
 		if (_fac_1_dead && _fac_2_dead) then {_fac_dead_both = true;};
 		
-		_time = _time + 10;
+		cgrtime = cgrtime + 10;
 	} else {
-		if (_fac_dead_both && (_time < _time15minutes)) exitWith {
+		if (_fac_dead_both && (cgrtime < _time15minutes)) then {
 			_sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 			[objNull, 15, 5, true, "Side Mission Completed!"] call tf47_core_ticketsystem_fnc_changeTickets;
 			
@@ -122,21 +123,22 @@ while {!_fac_dead_both || {_time < _time15minutes}} do {
 			[true] call cgr_fnc_side_init;
 			_scriptDone = true;
 		} else {
-			_time = _time +10;
+			cgrtime = cgrtime +10;
 		};
 	};
+	
 	sleep 10;
 };
 if {!_scriptDone) then {
 	while {!_jetsUP} do {
-		if (_time == _time15minutes) then {
+		if (cgrtime > _time15minutes) then {
 			_jetArray = [cgr_side_target_1,cgr_side_target_2] call cgr_fnc_airraid_jet;
 			_side_task_text = "Side: BANDITS IMBOUND!!!";
 			_side_task_detail = "Side Mission: BANDITS reportedly went up into the skies and are making their way towards our base, from now you have 10 minutes to either kill the FAC or you neutralize those jets.";
 			_sideTask = [west,["tsk_side_2","tsk_side_1"], [_side_task_detail,_side_task_text,""],getmarkerPos "cgr_mkr_base",true,1,true,"defend"] call BIS_fnc_taskCreate;
 			_jetsUP = true;
 		} else {
-			_time = _time + 10;
+			cgrtime = cgrtime + 10;
 		};
 	};
 		
