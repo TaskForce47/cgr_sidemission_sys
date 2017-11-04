@@ -57,7 +57,7 @@ while {!_containerinbase} do {
 		
 
 		if (_count == 200) then {
-			_reinforcementArray = [200,1,1] call cgr_fnc_side_reinforcements;
+			_reinforcementArray = [200,1,1,true] call cgr_fnc_side_reinforcements;
 		} else {
 			_count = _count + 2;
 		};
@@ -81,7 +81,7 @@ _sideTask = ["tsk_side_1","Succeeded",true] call bis_fnc_taskSetState;
 sleep 120;
 deleteVehicle cgr_side_target;
 [_enemiesArray] spawn cgr_fnc_side_cleanUp;
-if (_reinforcementArray == "") then {
+if (_reinforcementArray isEqualTo grpNull) then {
 	cgr_cleanup_finished = true;
 } else {
 	[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
@@ -89,9 +89,7 @@ if (_reinforcementArray == "") then {
 waitUntil {cgr_cleanup_finished};
 
 //Call next
-<<<<<<< HEAD
 sleep cgr_timebetweenmissions;
-=======
+
 sleep timebetweenmissions;
->>>>>>> 174254e5c61b6ba230aac88413b5f50773691ba7
 [true] call cgr_fnc_side_init;

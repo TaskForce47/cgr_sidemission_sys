@@ -3,7 +3,7 @@ Written by christian2526 aka. [TF47] Chris [REBEL] for Task Force 47 Community
 
 Spawns a reasonable force to counter a side mission team.
 
-[number,number,number] call cgr_fnc_side_reinforcements;
+[number,number,number,boolean] call cgr_fnc_side_reinforcements;
 
 Time: Time in Seconds when they are called.
 Number 1: 
@@ -18,6 +18,7 @@ Number 2:
 	1: Jet
 	2: No Jet
 
+boolean: True/False wether there should be a warning or not
 */
 
 private ["_time","_force","_jet","_blacklist","_reinforcementArray","_x","_infReinforcement","_carReinforcement","_tankReinforcement","_airReinforcement","_jetReinforcement","_position","_reinforcementSpawnRandom","_reinforcementSpawn","_randomPos","_car","_tank","_jet","_waypoint","_jettype"];
@@ -25,6 +26,7 @@ private ["_time","_force","_jet","_blacklist","_reinforcementArray","_x","_infRe
 _time = _this select 0;
 _force = _this select 1;
 _jet = _this select 2;
+_taskWanted = _this select 3;
 _blacklist = ["cgr_mkr_base","cgr_mkr_fob"];
 #define CGR_SIDE_RE_INF_GROUPS "rhsgref_group_chdkz_infantry_patrol"
 #define CGR_SIDE_RE_INF_GROUPS_SMALL "rhsgref_group_chdkz_infantry_mg","rhsgref_group_chdkz_infantry_at","rhsgref_group_chdkz_infantry_aa"
@@ -46,11 +48,13 @@ _jetReinforcement = createGroup independent;
 sleep _time;
 
 /*SetUp a Task to inform*/
+if (_taskWanted) then {
 cgr_task_reinforcements = [west,["cgr_task_reinforcements","tsk_side_1"],["Enemy reinforcements are on the move! Stop them before they reach the Side Mission!","Reinforcements"],cgr_side_target,"Created",0,true,"danger"] call BIS_fnc_taskCreate;
 //Random Spawn Position for Side Vehicles
 _position = (getPos cgr_side_Target);
 _reinforcementSpawnRandom = [_position, 800, 1200, 10, 0, 0.4, 0, ["cgr_mkr_base","cgr_mkr_fob"]] call BIS_fnc_findSafePos;
 _reinforcementSpawn = [_reinforcementSpawnRandom select 0,_reinforcementSpawnRandom select 1, 0];	
+};
 switch (_force) do {
     
 	case 1: {

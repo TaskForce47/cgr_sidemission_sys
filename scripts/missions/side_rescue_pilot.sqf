@@ -38,7 +38,7 @@ waitUntil {sleep 1; (alive cgr_side_target_1 && alive cgr_side_target_2)};
 [cgr_side_target_2,true,9999, true] call ace_medical_fnc_setUnconscious;
 
 /*Place enemy protection forces*/
-_reinforcementArray = [1800,1,1] spawn cgr_fnc_side_reinforcements;
+_reinforcementArray = [1800,1,1,true] spawn cgr_fnc_side_reinforcements;
 
 /*Prepare the Task*/
 _side_task_text = "Side: Recover downed pilots!";
@@ -104,7 +104,7 @@ deleteVehicle cgr_side_target_2;
 terminate _reinforcementArray;
 sleep 120;
 deleteVehicle cgr_side_target;
-if (_reinforcementArray == "") then {
+if (_reinforcementArray isequalTo grpNull) then {
 	cgr_cleanup_finished = true;
 } else {
 	[_reinforcementArray] spawn cgr_fnc_side_cleanUp;

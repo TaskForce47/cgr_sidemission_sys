@@ -30,7 +30,7 @@ _listOfSideMission = [
 					"side_container.sqf"
 					"side_rescue_pilot.sqf",
 					"side_armor.sqf"
-							
+					//"side_airraid.sqf"
 					];
 					
 
