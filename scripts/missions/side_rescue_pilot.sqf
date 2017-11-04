@@ -104,7 +104,7 @@ deleteVehicle cgr_side_target_2;
 terminate _reinforcementArray;
 sleep 120;
 deleteVehicle cgr_side_target;
-if (_reinforcementArray == "") then {
+if (_reinforcementArray isequalTo grpNull) then {
 	cgr_cleanup_finished = true;
 } else {
 	[_reinforcementArray] spawn cgr_fnc_side_cleanUp;
